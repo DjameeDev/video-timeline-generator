@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Timeline Generator - PromptsAIPro</title>
+    <meta property="og:title" content="Video Timeline Generator Pro">
+    <meta property="og:description" content="Transform your video ideas into detailed timeline prompts with complete control over camera angles, shots, audio, and effects.">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231e40af' stroke='%2307b6d3' stroke-width='2'/><path d='M35 50 L50 35 L65 50 L50 65 Z' fill='%2307b6d3'/><circle cx='50' cy='50' r='8' fill='%23ffffff'/></svg>">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #1e40af;
+            --secondary: #7c3aed;
+            --accent: #07b6d3;
+            --bg-light: #ffffff;
+            --text-light: #1f2937;
+            --border-light: #e5e7eb;
+            --bg-dark: #1f2937;
+            --text-dark: #f3f4f6;
+            --border-dark: #374151;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-light);
+            background-color: var(--bg-light);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode {
+            color: var(--text-dark);
+            background-color: var(--bg-dark);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 2px;
+        }
+        
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            object-fit: contain;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        nav {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .dark-mode-toggle {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--primary);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 1rem 0 0.5rem;
+            color: var(--secondary);
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: var(--bg-light);
+            border: 2px solid var(--border-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        body.dark-mode .feature-card {
+            background: #374151;
+            border-color: var(--border-dark);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .affiliate-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .affiliate-card {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%);
+            border: 2px solid var(--primary);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .affiliate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(7, 182, 211, 0.1) 100%);
+            pointer-events: none;
+        }
+        
+        body.dark-mode .affiliate-card {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-color: var(--secondary);
+        }
+        
+        .affiliate-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(30, 64, 175, 0.25);
+            border-color: var(--accent);
+        }
+        
+        .affiliate-card-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .affiliate-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .affiliate-card h3 {
+            margin-top: 0.5rem;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .affiliate-card p {
+            font-size: 0.95rem;
+            margin: 0.8rem 0;
+            color: var(--text-light);
+        }
+        
+        body.dark-mode .affiliate-card p {
+            color: var(--text-dark);
+        }
+        
+        .affiliate-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .affiliate-link:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+        }
+        
+        .ad-placeholder {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border: 2px dashed var(--border-light);
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        body.dark-mode .ad-placeholder {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            border-color: var(--border-dark);
+            color: #999;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .faq-item {
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            margin: 1rem 0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        body.dark-mode .faq-item {
+            background: #374151;
+            border-color: var(--border-dark);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        body.dark-mode .faq-question {
+            background: #2d3748;
+        }
+        
+        .faq-question:hover {
+            background: var(--border-light);
+        }
+        
+        body.dark-mode .faq-question:hover {
+            background: #374151;
+        }
+        
+        .faq-answer {
+            display: none;
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-top: 1px solid var(--border-light);
+            font-size: 1rem;
+        }
+        
+        body.dark-mode .faq-answer {
+            background: #374151;
+            border-color: var(--border-dark);
+        }
+        
+        .faq-answer.open {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+            
+            nav a {
+                display: block;
+                padding: 0.75rem 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="javascript:void(0)" onclick="showPage('home')" class="logo-section">
+            <div class="logo-img">
+                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' style="width: 100%; height: 100%;">
+                    <circle cx='50' cy='50' r='48' fill='%231e40af' stroke='%2307b6d3' stroke-width='2'/>
+                    <path d='M35 50 L50 35 L65 50 L50 65 Z' fill='%2307b6d3'/>
+                    <circle cx='50' cy='50' r='8' fill='%23ffffff'/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>PromptsAIPro</h1>
+                <p>Video Timeline Generator</p>
+            </div>
+        </a>
+        
+        <nav>
+            <a href="javascript:void(0)" onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+            <a href="javascript:void(0)" onclick="showPage('app')" class="nav-link" data-page="app">Generator</a>
+            <a href="javascript:void(0)" onclick="showPage('faq')" class="nav-link" data-page="faq">FAQ</a>
+            <a href="javascript:void(0)" onclick="showPage('privacy')" class="nav-link" data-page="privacy">Privacy</a>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <h1>Video Timeline Generator</h1>
+            <p style="font-size: 1.2rem; color: var(--secondary);">Transform your video ideas into detailed timeline prompts with complete control over camera angles, shots, audio, and effects.</p>
+            
+            <button class="cta-button" onclick="showPage('app')" style="margin: 2rem 0;">Start Creating Timelines</button>
+            
+            <h2>Why Use Our Timeline Generator?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>📹 Professional Timelines</h3>
+                    <p>Create detailed video timelines with precise timing, camera angles, and shot descriptions.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎬 Full Control</h3>
+                    <p>Customize every aspect: shots, angles, audio, effects, transitions, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Fast & Easy</h3>
+                    <p>Generate comprehensive timelines in minutes, not hours.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📋 Export Ready</h3>
+                    <p>Copy to clipboard or download as text files for use with any video tool.</p>
+                </div>
+            </div>
+            
+            <h2>Recommended Video Generation Tools</h2>
+            <p>Use your timeline prompts with these professional video creation platforms:</p>
+            
+            <div class="affiliate-cards">
+                <div class="affiliate-card">
+                    <div class="affiliate-card-content">
+                        <div class="affiliate-icon">🎬</div>
+                        <h3>Fliki.AI</h3>
+                        <p>Create stunning videos from text with AI voices, avatars, and professional editing tools. Perfect for YouTube, TikTok, and social media content.</p>
+                        <a href="https://fliki.ai/?via=raphael" target="_blank" class="affiliate-link">Explore Fliki.AI</a>
+                    </div>
+                </div>
+                
+                <div class="affiliate-card">
+                    <div class="affiliate-card-content">
+                        <div class="affiliate-icon">🎥</div>
+                        <h3>InVideo</h3>
+                        <p>Professional video creation platform with thousands of templates, stock footage, and AI-powered editing. Create broadcast-quality videos effortlessly.</p>
+                        <a href="https://invideo.sjv.io/c/2426215/883681/12258" target="_blank" class="affiliate-link">Explore InVideo</a>
+                    </div>
+                </div>
+                
+                <div class="affiliate-card">
+                    <div class="affiliate-card-content">
+                        <div class="affiliate-icon">⚡</div>
+                        <h3>Video Express AI</h3>
+                        <p>Fast AI video generation optimized for social media. Create engaging short-form videos in seconds with automatic editing and effects.</p>
+                        <a href="https://paykstrt.com/50942/162714" target="_blank" class="affiliate-link">Explore Video Express</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- APP PAGE -->
+        <div id="app" class="page">
+            <h1>Timeline Generator App</h1>
+            <p>This is where the interactive timeline generator app would be embedded. The app allows you to create detailed video timelines with full customization options.</p>
+            <div class="ad-placeholder">
+                <p>🎯 Interactive Timeline Generator Coming Soon</p>
+                <p>This section will feature the full timeline generator application with real-time preview and export options.</p>
+            </div>
+        </div>
+
+        <!-- FAQ PAGE -->
+        <div id="faq" class="page">
+            <h1>Frequently Asked Questions</h1>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What is a video timeline?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>A video timeline is a detailed breakdown of your video project showing the exact timing, camera angles, shots, audio, effects, and transitions for each scene. It serves as a blueprint for video creators and AI video generation tools.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I use the timeline generator?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Simply describe your video concept, and our generator will create a detailed timeline with specific timings, camera angles, shot types, audio descriptions, and effects. You can then customize each element to match your vision perfectly.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I customize the generated timeline?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! You have complete control over every aspect of the timeline. Edit timing, camera angles, shot descriptions, audio cues, effects, transitions, and any other element to perfectly match your creative vision.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What video generation tools do you recommend?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We recommend Fliki.AI and InVideo as top-tier video generation platforms that work perfectly with our timeline prompts. Both offer AI-powered video creation, professional templates, and easy-to-use interfaces. Check out our recommended tools section for more options.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How can I export my timeline?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You can copy your timeline to the clipboard with one click, or download it as a text file. Simply use the export buttons in the app to download your timeline and use it with any video generation tool.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is this tool free to use?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! The Video Timeline Generator is completely free to use. We offer unlimited timeline generation with no registration required. We earn through affiliate partnerships with video creation tools.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I use timelines for commercial projects?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Timelines generated by our tool can be used for any purpose, including commercial projects. There are no restrictions on how you use your generated timelines.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRIVACY PAGE -->
+        <div id="privacy" class="page">
+            <h1>Privacy Policy</h1>
+            <p><strong>Last Updated: January 31, 2026</strong></p>
+            
+            <h2>1. Introduction</h2>
+            <p>Video Timeline Generator ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.</p>
+            
+            <h2>2. Information We Collect</h2>
+            <p>We may collect information about you in a variety of ways. The information we may collect on the Site includes:</p>
+            <ul style="font-size: 1.1rem; margin-left: 2rem;">
+                <li><strong>Personal Data:</strong> Voluntarily provided information such as name, email address, and any other information you provide when using our services.</li>
+                <li><strong>Device Information:</strong> Information about your device, including browser type, IP address, and operating system.</li>
+                <li><strong>Usage Data:</strong> Information about how you interact with our website and services.</li>
+            </ul>
+            
+            <h2>3. How We Use Your Information</h2>
+            <p>We use the information we collect to:</p>
+            <ul style="font-size: 1.1rem; margin-left: 2rem;">
+                <li>Provide, maintain, and improve our services</li>
+                <li>Respond to your inquiries and requests</li>
+                <li>Send you updates and promotional materials (with your consent)</li>
+                <li>Analyze usage patterns to enhance user experience</li>
+                <li>Comply with legal obligations</li>
+            </ul>
+            
+            <h2>4. Data Security</h2>
+            <p>We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.</p>
+            
+            <h2>5. Third-Party Links</h2>
+            <p>Our website may contain links to third-party websites. We are not responsible for the privacy practices of external sites. Please review their privacy policies before providing any personal information.</p>
+            
+            <h2>6. Your Rights</h2>
+            <p>You have the right to access, correct, or delete your personal data. To exercise these rights, please contact us at support@promptsaipro.com.</p>
+            
+            <h2>7. Contact Us</h2>
+            <p>If you have questions about this Privacy Policy, please contact us at: <strong>support@promptsaipro.com</strong></p>
+        </div>
+
+        <!-- TERMS PAGE -->
+        <div id="terms" class="page">
+            <h1>Terms of Service</h1>
+            <p><strong>Last Updated: January 31, 2026</strong></p>
+            
+            <h2>1. Agreement to Terms</h2>
+            <p>By accessing and using the Video Timeline Generator website and services, you accept and agree to be bound by and comply with these Terms of Service.</p>
+            
+            <h2>2. Use License</h2>
+            <p>Permission is granted to temporarily download one copy of the materials (information or software) on Video Timeline Generator for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+            <ul style="font-size: 1.1rem; margin-left: 2rem;">
+                <li>Modify or copy the materials</li>
+                <li>Use the materials for any commercial purpose or for any public display</li>
+                <li>Attempt to decompile or reverse engineer any software contained on the website</li>
+                <li>Remove any copyright or other proprietary notations from the materials</li>
+                <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+            </ul>
+            
+            <h2>3. Disclaimer</h2>
+            <p>The materials on Video Timeline Generator are provided on an 'as is' basis. Video Timeline Generator makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+            
+            <h2>4. Limitations</h2>
+            <p>In no event shall Video Timeline Generator or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Video Timeline Generator.</p>
+            
+            <h2>5. Accuracy of Materials</h2>
+            <p>The materials appearing on Video Timeline Generator could include technical, typographical, or photographic errors. Video Timeline Generator does not warrant that any of the materials on the website are accurate, complete, or current.</p>
+            
+            <h2>6. Links</h2>
+            <p>Video Timeline Generator has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Video Timeline Generator of the site. Use of any such linked website is at the user's own risk.</p>
+            
+            <h2>7. Modifications</h2>
+            <p>Video Timeline Generator may revise these terms of service for the website at any time without notice. By using this website, you are agreeing to be bound by the then current version of these terms of service.</p>
+            
+            <h2>8. Governing Law</h2>
+            <p>These terms and conditions are governed by and construed in accordance with the laws of the United States, and you irrevocably submit to the exclusive jurisdiction of the courts in that location.</p>
+            
+            <h2>9. Contact Information</h2>
+            <p>If you have any questions about these Terms of Service, please contact us at: <strong>support@promptsaipro.com</strong></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Video Timeline Generator. All rights reserved. A PromptsAIPro Product</p>
+        <p>
+            <a href="javascript:void(0)" onclick="showPage('home')">Home</a>
+            <a href="javascript:void(0)" onclick="showPage('privacy')">Privacy</a>
+            <a href="javascript:void(0)" onclick="showPage('terms')">Terms</a>
+            <a href="javascript:void(0)" onclick="showPage('faq')">FAQ</a>
+        </p>
+        <p>Support: <strong>support@promptsaipro.com</strong></p>
+        <p><a href="https://promptsaipro.com" target="_blank" style="color: white; text-decoration: none;">← Back to PromptsAIPro</a></p>
+    </footer>
+
+    <script>
+        // Initialize year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Dark mode functionality
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+        
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+        
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            
+            // Update nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            answer.classList.toggle('open');
+            element.querySelector('span:last-child').textContent = answer.classList.contains('open') ? '−' : '+';
+        }
+    </script>
+</body>
+</html>
