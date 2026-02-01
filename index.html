@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Timeline Generator - PromptsAIPro</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" href="favicon.png">
     <meta property="og:title" content="Video Timeline Generator Pro">
     <meta property="og:description" content="Transform your video ideas into detailed timeline prompts with complete control over camera angles, shots, audio, and effects.">
     <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -58,23 +59,13 @@
             cursor: pointer;
         }
         
-        .logo {
+        .logo-img {
             width: 50px;
             height: 50px;
-            background: transparent;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            overflow: hidden;
-        }
-        
-        .logo img {
-            width: 100%;
-            height: 100%;
             object-fit: contain;
+            background: rgba(255,255,255,0.1);
+            padding: 4px;
         }
         
         .logo-text h1 {
@@ -187,6 +178,30 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
+        .ad-banner {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .ad-banner img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .ad-banner a {
+            text-decoration: none;
+        }
+        
+        .ad-banner img:hover {
+            transform: scale(1.02);
+        }
+        
         .affiliate-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -232,62 +247,101 @@
             text-decoration: none;
             font-weight: bold;
             margin-top: 1rem;
-            transition: all 0.3s;
-            font-size: 1.1rem;
+            transition: background 0.3s;
         }
         
         .affiliate-link:hover {
             background: var(--secondary);
-            transform: scale(1.05);
         }
         
-        .cta-button {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 1.2rem 2.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .cta-button:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
-        }
-        
-        .ad-placeholder {
-            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
-            border: 2px dashed var(--border-light);
-            padding: 2rem;
-            text-align: center;
-            margin: 2rem 0;
+        .faq-item {
+            background: var(--bg-light);
+            margin: 1rem 0;
             border-radius: 8px;
-            font-size: 0.9rem;
-            color: #666;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
-        body.dark-mode .ad-placeholder {
-            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        body.dark-mode .faq-item {
+            background: #374151;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f5f5;
+        }
+        
+        body.dark-mode .faq-question {
+            background: #333;
+        }
+        
+        .faq-question:hover {
+            background: #efefef;
+        }
+        
+        body.dark-mode .faq-question:hover {
+            background: #444;
+        }
+        
+        .faq-answer {
+            padding: 1.5rem;
+            display: none;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        body.dark-mode .faq-answer {
+            border-top-color: var(--border-dark);
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        .faq-toggle {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .manus-app-container {
+            background: var(--bg-light);
+            border: 2px solid var(--border-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        body.dark-mode .manus-app-container {
+            background: #374151;
             border-color: var(--border-dark);
-            color: #999;
+        }
+        
+        .manus-app-container iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 1rem;
         }
         
         footer {
-            background: var(--primary);
+            background: #333;
             color: white;
-            padding: 2rem;
             text-align: center;
-            margin-top: 3rem;
-            font-size: 0.95rem;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        body.dark-mode footer {
+            background: #1a1a2e;
         }
         
         footer a {
-            color: white;
+            color: #8b9dff;
             text-decoration: none;
             margin: 0 1rem;
         }
@@ -296,109 +350,48 @@
             text-decoration: underline;
         }
         
-        .faq-item {
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            margin: 1rem 0;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        
-        body.dark-mode .faq-item {
-            background: #374151;
-            border-color: var(--border-dark);
-        }
-        
-        .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
-            font-weight: bold;
+        ul {
             font-size: 1.1rem;
-            background: var(--bg-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        body.dark-mode .faq-question {
-            background: #2d3748;
-        }
-        
-        .faq-question:hover {
-            background: var(--border-light);
-        }
-        
-        body.dark-mode .faq-question:hover {
-            background: #374151;
-        }
-        
-        .faq-answer {
-            display: none;
-            padding: 1.5rem;
-            background: var(--bg-light);
-            border-top: 1px solid var(--border-light);
-            font-size: 1rem;
-        }
-        
-        body.dark-mode .faq-answer {
-            background: #374151;
-            border-color: var(--border-dark);
-        }
-        
-        .faq-answer.open {
-            display: block;
+            margin-left: 2rem;
         }
         
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
-                align-items: flex-start;
+                gap: 1rem;
             }
-            
             nav {
                 flex-direction: column;
                 gap: 0.5rem;
                 width: 100%;
             }
-            
-            nav a {
-                display: block;
-                padding: 0.75rem 0;
-            }
-            
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
-            
             h2 {
                 font-size: 1.5rem;
             }
-            
-            main {
-                padding: 1rem;
-            }
-            
-            .features, .affiliate-cards {
-                grid-template-columns: 1fr;
+            .manus-app-container iframe {
+                height: 600px;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <a class="logo-section" onclick="showPage('home')">
-            <img src="promptsaipro-logo.png" alt="PromptsAIPro" class="logo-image" style="width: 50px; height: 50px; border-radius: 8px;">
+        <a href="javascript:void(0)" onclick="showPage('home')" class="logo-section">
+            <img src="promptsaipro-logo.png" alt="PromptsAIPro Logo" class="logo-img">
             <div class="logo-text">
                 <h1>Video Timeline Generator</h1>
                 <p>by PromptsAIPro</p>
             </div>
         </a>
         <nav>
-            <a onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
-            <a onclick="showPage('app')" class="nav-link" data-page="app">App</a>
-            <a onclick="showPage('faq')" class="nav-link" data-page="faq">FAQ</a>
-            <a onclick="showPage('privacy')" class="nav-link" data-page="privacy">Privacy</a>
-            <a onclick="showPage('terms')" class="nav-link" data-page="terms">Terms</a>
+            <a href="javascript:void(0)" onclick="showPage('home')" class="nav-link active">Home</a>
+            <a href="javascript:void(0)" onclick="showPage('app')" class="nav-link">App</a>
+            <a href="javascript:void(0)" onclick="showPage('faq')" class="nav-link">FAQ</a>
+            <a href="javascript:void(0)" onclick="showPage('privacy')" class="nav-link">Privacy</a>
+            <a href="javascript:void(0)" onclick="showPage('terms')" class="nav-link">Terms</a>
             <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Dark</button>
         </nav>
     </header>
@@ -407,13 +400,16 @@
         <!-- HOME PAGE -->
         <div id="home" class="page active">
             <h1>Welcome to Video Timeline Generator</h1>
-            <p>Transform your video ideas into detailed, professional timelines with complete control over every aspect of your production.</p>
+            <p style="font-size: 1.1em; margin-bottom: 2rem;">Transform your video ideas into detailed, professional timelines with complete control over every aspect of your production.</p>
             
-            <div class="ad-placeholder">
-                [Advertisement Placeholder - 728x90]
+            <!-- Fliki.ai Banner Ad -->
+            <div class="ad-banner">
+                <a href="https://fliki.ai/?via=raphael" target="_blank">
+                    <img src="ads/fliki_728x90_v2.png" alt="Fliki.ai - Create Videos with AI" loading="lazy" style="max-width: 728px; width: 100%; height: auto;">
+                </a>
             </div>
             
-            <h2>Key Features</h2>
+            <h2 style="color: var(--primary); margin: 2rem 0 1rem 0;">Key Features</h2>
             <div class="features">
                 <div class="feature-card">
                     <h3>📹 Camera Control</h3>
@@ -436,27 +432,42 @@
                     <p>Large fonts and responsive design for perfect mobile viewing.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>💰 Free Forever</h3>
-                    <p>Completely free to use. No hidden fees or subscriptions.</p>
+                    <h3>⚡ Lightning Fast</h3>
+                    <p>Generate timelines instantly with our optimized algorithms.</p>
                 </div>
             </div>
             
-            <button class="cta-button" onclick="showPage('app')">Start Creating Now →</button>
+            <h2 style="color: var(--primary); margin: 2rem 0 1rem 0;">Recommended Tools</h2>
+            <div class="affiliate-cards">
+                <div class="affiliate-card">
+                    <h3>🎥 Fliki.ai</h3>
+                    <p>Create stunning AI-powered videos with realistic avatars and voiceovers. Perfect for turning your timelines into finished videos.</p>
+                    <a href="https://fliki.ai/?via=raphael" target="_blank" class="affiliate-link">Explore Fliki.ai</a>
+                </div>
+                <div class="affiliate-card">
+                    <h3>🎬 InVideo</h3>
+                    <p>Professional video editing and creation platform. Use your timelines to create polished, professional-quality videos.</p>
+                    <a href="https://invideo.sjv.io/c/2426215/883681/12258" target="_blank" class="affiliate-link">Explore InVideo</a>
+                </div>
+            </div>
         </div>
 
         <!-- APP PAGE -->
         <div id="app" class="page">
-            <h1>Video Timeline Generator</h1>
-            <p>Use the form below to create your video timeline. Enter your video description and we'll break it down into detailed segments.</p>
+            <h1>Timeline Generator App</h1>
+            <p style="font-size: 1.1em; margin-bottom: 2rem;">Use the form below to create your video timeline. Enter your video description and we'll break it down into detailed segments.</p>
             
-            <div class="ad-placeholder">
-                [Advertisement Placeholder - 300x250]
+            <!-- InVideo Banner Ad -->
+            <div class="ad-banner">
+                <a href="https://invideo.sjv.io/c/2426215/883681/12258" target="_blank">
+                    <img src="ads/invideo_728x90_v2.png" alt="InVideo - Create Professional Videos" loading="lazy" style="max-width: 728px; width: 100%; height: auto;">
+                </a>
             </div>
             
-            <div style="background: var(--bg-light); border: 2px solid var(--border-light); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+            <div class="manus-app-container">
                 <h3>Video Timeline Generator</h3>
                 <p style="font-size: 0.95rem; color: #666;">The full app is embedded below. You can also access it at: <a href="https://videotime-akvxct.manus.space/" target="_blank" style="color: var(--primary);">https://videotime-akvxct.manus.space/</a></p>
-                <iframe src="https://videotime-akvxct.manus.space/" style="width: 100%; height: 800px; border: none; border-radius: 8px; margin-top: 1rem;"></iframe>
+                <iframe src="https://videotime-akvxct.manus.space/"></iframe>
             </div>
         </div>
 
@@ -464,116 +475,102 @@
         <div id="faq" class="page">
             <h1>Frequently Asked Questions</h1>
             
-            <div class="ad-placeholder">
-                [Advertisement Placeholder - 728x90]
+            <!-- 300x250 Ad Space -->
+            <div class="ad-banner">
+                <a href="https://fliki.ai/?via=raphael" target="_blank">
+                    <img src="ads/fliki_300x250_v2.png" alt="Fliki.ai - AI Video Creation" loading="lazy" style="max-width: 300px; width: 100%; height: auto;">
+                </a>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>What is the Video Timeline Generator?</span>
-                    <span>+</span>
+                    <span>What is a video timeline?</span>
+                    <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p>The Video Timeline Generator is a free tool that helps you transform your video ideas into detailed timeline prompts. It breaks down your video concept into segments with specific camera angles, shot types, audio settings, and visual notes to give you complete control over your video production.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>Is it really free?</span>
-                    <span>+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! The Video Timeline Generator is completely free to use. There are no hidden fees, no subscriptions, and no premium tiers. We believe in providing powerful tools to creators at no cost.</p>
+                    <p>A video timeline is a detailed breakdown of your video content, including camera angles, shots, transitions, audio cues, and effects. It serves as a blueprint for your video production.</p>
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>How do I use the dark mode?</span>
-                    <span>+</span>
+                    <span>How do I use the timeline generator?</span>
+                    <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p>Simply click the "🌙 Dark" button in the header to toggle between light and dark modes. Your preference is automatically saved in your browser, so it will be remembered the next time you visit.</p>
+                    <p>Simply describe your video concept in the app, and our AI will generate a detailed timeline with camera angles, shot types, transitions, and audio suggestions. You can then customize each segment.</p>
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
-                    <span>Can I use this on my mobile phone?</span>
-                    <span>+</span>
+                    <span>Can I customize the generated timeline?</span>
+                    <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p>Absolutely! The Video Timeline Generator is fully responsive and optimized for mobile devices. We use larger fonts (18px base) to ensure everything is easy to read on your phone.</p>
+                    <p>Yes! Our app allows you to edit every aspect of the generated timeline. Adjust camera angles, change shot types, modify transitions, and customize audio settings to match your vision.</p>
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
                     <span>What video generation tools do you recommend?</span>
-                    <span>+</span>
+                    <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p>We recommend several excellent video generation tools that work great with our timeline prompts. Check out our affiliate partners below for tools that can help bring your timeline to life.</p>
+                    <p>We recommend Fliki.ai for AI-powered video creation with avatars and voiceovers, and InVideo for professional video editing and production. Both tools integrate seamlessly with timelines created in our generator.</p>
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFAQ(this)">
                     <span>How can I export my timeline?</span>
-                    <span>+</span>
+                    <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p>You can copy your timeline to the clipboard or export it as a text file. Simply use the export buttons in the app to download your timeline and use it with any video generation tool.</p>
+                    <p>You can export your timeline as a detailed document or use it directly in your preferred video editing software. The timeline includes all specifications for camera work, audio, and effects.</p>
                 </div>
             </div>
             
-            <h2 style="margin-top: 3rem;">Recommended Video Generation Tools</h2>
-            <div class="affiliate-cards">
-                <div class="affiliate-card">
-                    <h3>🎬 Fliki.AI</h3>
-                    <p>Create videos from text with AI voices and avatars</p>
-                    <a href="https://fliki.ai/?via=raphael" target="_blank" class="affiliate-link">Visit Fliki.AI</a>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is this tool free to use?</span>
+                    <span class="faq-toggle">+</span>
                 </div>
-                <div class="affiliate-card">
-                    <h3>🎥 InVideo</h3>
-                    <p>Professional video creation platform with templates</p>
-                    <a href="https://invideo.sjv.io/c/2426215/883681/12258" target="_blank" class="affiliate-link">Visit InVideo</a>
+                <div class="faq-answer">
+                    <p>Yes, the Video Timeline Generator is free to use. We offer premium features for advanced customization and export options. Check the app for details on our pricing plans.</p>
                 </div>
-                <div class="affiliate-card">
-                    <h3>⚡ Video Express AI</h3>
-                    <p>Fast AI video generation for social media</p>
-                    <a href="https://paykstrt.com/50942/162714" target="_blank" class="affiliate-link">Visit Video Express</a>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I use timelines for commercial projects?</span>
+                    <span class="faq-toggle">+</span>
                 </div>
-                <div class="affiliate-card">
-                    <h3>🎨 Artistly</h3>
-                    <p>AI-powered creative video editing tools</p>
-                    <a href="https://paykstrt.com/48893/162714" target="_blank" class="affiliate-link">Visit Artistly</a>
+                <div class="faq-answer">
+                    <p>Absolutely! Timelines created with our generator can be used for commercial video projects. Please review our Terms of Service for specific licensing details and usage rights.</p>
                 </div>
-                <div class="affiliate-card">
-                    <h3>🎞️ AI Video</h3>
-                    <p>Automated video creation with AI</p>
-                    <a href="https://paykstrt.com/49246/162714" target="_blank" class="affiliate-link">Visit AI Video</a>
-                </div>
-                <div class="affiliate-card">
-                    <h3>🌐 ClickSite</h3>
-                    <p>Website builder with video integration</p>
-                    <a href="https://paykstrt.com/52493/162714" target="_blank" class="affiliate-link">Visit ClickSite</a>
-                </div>
+            </div>
+            
+            <!-- 300x250 Ad Space -->
+            <div class="ad-banner">
+                <a href="https://invideo.sjv.io/c/2426215/883681/12258" target="_blank">
+                    <img src="ads/invideo_300x250_v2.png" alt="InVideo - Professional Video Editing" loading="lazy" style="max-width: 300px; width: 100%; height: auto;">
+                </a>
             </div>
         </div>
 
         <!-- PRIVACY PAGE -->
         <div id="privacy" class="page">
             <h1>Privacy Policy</h1>
-            <p><strong>Last Updated: January 28, 2026</strong></p>
+            <p><strong>Last Updated: January 31, 2026</strong></p>
             
             <h2>1. Introduction</h2>
             <p>Video Timeline Generator ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.</p>
             
             <h2>2. Information We Collect</h2>
             <p>We may collect information about you in a variety of ways. The information we may collect on the Site includes:</p>
-            <ul style="font-size: 1.1rem; margin-left: 2rem;">
+            <ul>
                 <li><strong>Personal Data:</strong> Voluntarily provided information such as name, email address, and any other information you provide when using our services.</li>
                 <li><strong>Device Information:</strong> Information about your device, including browser type, IP address, and operating system.</li>
                 <li><strong>Usage Data:</strong> Information about how you interact with our website and services.</li>
@@ -581,7 +578,7 @@
             
             <h2>3. How We Use Your Information</h2>
             <p>We use the information we collect to:</p>
-            <ul style="font-size: 1.1rem; margin-left: 2rem;">
+            <ul>
                 <li>Provide, maintain, and improve our services</li>
                 <li>Respond to your inquiries and requests</li>
                 <li>Send you updates and promotional materials (with your consent)</li>
@@ -605,14 +602,14 @@
         <!-- TERMS PAGE -->
         <div id="terms" class="page">
             <h1>Terms of Service</h1>
-            <p><strong>Last Updated: January 28, 2026</strong></p>
+            <p><strong>Last Updated: January 31, 2026</strong></p>
             
             <h2>1. Agreement to Terms</h2>
             <p>By accessing and using the Video Timeline Generator website and services, you accept and agree to be bound by and comply with these Terms of Service.</p>
             
             <h2>2. Use License</h2>
             <p>Permission is granted to temporarily download one copy of the materials (information or software) on Video Timeline Generator for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
-            <ul style="font-size: 1.1rem; margin-left: 2rem;">
+            <ul>
                 <li>Modify or copy the materials</li>
                 <li>Use the materials for any commercial purpose or for any public display</li>
                 <li>Attempt to decompile or reverse engineer any software contained on the website</li>
@@ -644,7 +641,7 @@
     </main>
 
     <footer>
-        <p>&copy; <span id="year"></span> Video Timeline Generator. All rights reserved. A PromptsAIPro Product</p>
+        <p>&copy; <span id="year"></span> Video Timeline Generator. All rights reserved. DJAMEE.AI a DJAMEE ENTERPRISE Division</p>
         <p>
             <a href="javascript:void(0)" onclick="showPage('home')">Home</a>
             <a href="javascript:void(0)" onclick="showPage('privacy')">Privacy</a>
@@ -659,7 +656,7 @@
         // Initialize year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
         
-        // Dark mode functionality
+        // Dark mode toggle
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
@@ -671,18 +668,22 @@
         }
         
         // Page navigation
-        function showPage(pageName) {
+        function showPage(pageId) {
             // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
             
             // Show selected page
-            document.getElementById(pageName).classList.add('active');
+            document.getElementById(pageId).classList.add('active');
             
-            // Update nav links
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.classList.remove('active'));
-            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+            // Add active class to corresponding nav link
+            event.target.classList.add('active');
             
             // Scroll to top
             window.scrollTo(0, 0);
@@ -691,8 +692,19 @@
         // FAQ toggle
         function toggleFAQ(element) {
             const answer = element.nextElementSibling;
-            answer.classList.toggle('open');
-            element.querySelector('span:last-child').textContent = answer.classList.contains('open') ? '−' : '+';
+            const toggle = element.querySelector('.faq-toggle');
+            
+            // Close other open FAQs
+            document.querySelectorAll('.faq-answer.active').forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                    item.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
+                }
+            });
+            
+            // Toggle current FAQ
+            answer.classList.toggle('active');
+            toggle.textContent = answer.classList.contains('active') ? '−' : '+';
         }
     </script>
 </body>
